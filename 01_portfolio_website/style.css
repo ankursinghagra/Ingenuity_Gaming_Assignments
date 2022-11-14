@@ -40,7 +40,6 @@ header .left-area{
 }
 header .right-area {
 	float: right;
-	display: inline-block;
 	max-width: 50%;
 	padding: 30px;
 }
