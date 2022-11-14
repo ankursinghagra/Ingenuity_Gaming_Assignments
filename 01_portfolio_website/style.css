@@ -61,7 +61,18 @@ header .right-area a.btn-inverted{
 .text-area{
 	padding: 50px 40px;
 }
-
+.header-area h1{
+	font-size: 70px;
+}
+.header-area p{
+	font-size: 30px;
+}
+.second-block h2{
+	font-size: 50px;
+}
+.second-block p{
+	font-size: 25px;
+}
 .contact-area{
 	border-radius: 20px;
 	border: 1px solid black;
