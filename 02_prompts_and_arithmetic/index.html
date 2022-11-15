@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Games</title>
+</head>
+<body>
+
+    <div class="block">
+        Today's Date: <b><span id="current_date"></span></b><br>
+        Today's Day: <b><span id="current_daydate"></span></b><br>
+    
+        <button onclick="launchGame1()">Game 1: Guess the number (0-9)</button>
+        <button onclick="launchGame2()">Game 2: Arithmetic operations on 2 numbers </button>
+    </div>
+    <script>
+        var today = new Date();
+        document.getElementById('current_date').innerHTML = today.toLocaleDateString();
+        document.getElementById('current_daydate').innerHTML = today.toDateString();
+
+        //game 1
+        function launchGame1(){
+            var random_number = Math.floor(Math.random() * 10);
+
+            var extra_msg = "You have 3 attempts left.";
+            for (let i = 0; i < 3; i++) {
+                var user_input = prompt("Guess the number (0-9): "+extra_msg);
+                if(user_input === null){
+                    return;
+                }else if(verify_number(user_input)){
+                    if(random_number == user_input){
+                        //won 
+                        alert("Congrats You Won");
+                        return;
+                    }else{
+                        extra_msg = "incorrect . You have "+(2-i)+" attempts left.";
+                    }
+                }else{
+                    alert("Invalid Number . Try Again");
+                    i--;
+                }
+            }
+            function verify_number(num){
+                return (parseInt(num)>=0 && parseInt(num)<=9);
+            }
+        }
+
+        //Game 2
+        function launchGame2(){
+
+            var first = ask_num_1();
+            if(first != null){
+                var second = ask_num_2();
+                if(second != null){
+                    var sign = ask_sign();
+                    if(sign != null){
+                        switch (sign) {
+                            case "+":
+                                alert("result : "+first+sign+second+"="+(parseInt(first)+parseInt(second)));       
+                                break;
+                            case "-":
+                                alert("result : "+first+sign+second+"="+(parseInt(first)-parseInt(second)));       
+                                break;
+                            case "/":
+                                alert("result : "+first+sign+second+"="+(parseInt(first)/parseInt(second)));       
+                                break;
+                            case "*":
+                                alert("result : "+first+sign+second+"="+(parseInt(first)*parseInt(second)));       
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+            
+
+            function ask_num_1(){
+                var user_input = prompt("Enter first number (0-9): ");
+                if(user_input === null){
+                    return null;
+                }else if(verify_number(user_input)){
+                    return user_input;
+                }else{
+                    alert("Invalid Number . Try Again");
+                    return ask_num_1();
+                }
+            }
+            function ask_num_2(){
+                var user_input = prompt("Enter second number (0-9): ");
+                if(user_input === null){
+                    return null;
+                }else if(verify_number(user_input)){
+                    return user_input;
+                }else{
+                    alert("Invalid Number . Try Again");
+                    return ask_num_2();
+                }
+            }
+            function ask_sign(){
+                var user_input = prompt("Enter operator to perform on these number (+ - * /): ");
+                if(user_input === null){
+                    return null;
+                }else if(verify_sign(user_input)){
+                    return user_input;
+                }else{
+                    alert("Invalid sign . Try Again");
+                    return ask_sign();
+                }
+            }
+
+            function verify_number(num){
+                return (parseInt(num)>=0 && parseInt(num)<=9);
+            }
+            function verify_sign(num){
+                return (["+","-","/","*"].includes(num));
+            }
+        }
+    </script>
+
+</body>
+</html>
