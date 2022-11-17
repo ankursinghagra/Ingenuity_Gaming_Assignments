@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WHAKE A MOLE GAME</title>
+    <link rel="stylesheet" href="assets/style.css" />
+    
+  </head>
+  <body>
+    <div id="container">
+      <h1>WHAKE A MOLE</h1>
+      <img src="assets/mole.png" id="mole" />
+      <img src="assets/dirt.svg" id="mud" />
+      <button type="button" id="start" >START</button>
+  
+      <img src="assets/dirt.svg" id="dirt1" class="dirt" />
+      <img src="assets/dirt.svg" id="dirt2" class="dirt" />
+      <img src="assets/dirt.svg" id="dirt3" class="dirt" />
+      <img src="assets/dirt.svg" id="dirt4" class="dirt" />
+      <img src="assets/dirt.svg" id="dirt5" class="dirt" />
+      <img src="assets/dirt.svg" id="dirt6" class="dirt" />
+  
+      <img src="assets/mole.png" id="mole1" class="mole" />
+      <img src="assets/mole.png" id="mole2" class="mole" />
+      <img src="assets/mole.png" id="mole3" class="mole" />
+      <img src="assets/mole.png" id="mole4" class="mole" />
+      <img src="assets/mole.png" id="mole5" class="mole" />
+      <img src="assets/mole.png" id="mole6" class="mole" />
+  
+      <span class="points">YOUR POINT :-</span>
+      <span id="currentPoint" class="points">0</span>
+    </div>
+
+    <script type="text/javascript">
+
+      //document.getElementById('container').style.height = (window.innerHeight-100)+'px';
+      //document.getElementById('container').style.width = ((window.innerHeight-100)*4/3)+'px';
+
+      var dirts = document.getElementsByClassName('dirt');
+      var moles = document.getElementsByClassName('mole');
+      var points_ref = document.getElementsByClassName('points');
+      var loop_ref =null;
+
+      for (let i = 0; i < dirts.length; i++) {
+        dirts[i].style.display = "none";        
+      }
+      for (let i = 0; i < moles.length; i++) {
+        moles[i].style.display = "none";
+        moles[i].addEventListener('click', ()=>{
+          moles[i].src = 'assets/splat.png';
+        });     
+      }
+      for (let i = 0; i < points_ref.length; i++) {
+        points_ref[i].style.display = "none"; 
+        
+      }
+      
+      document.getElementById('start').addEventListener("click", ()=>{
+        document.getElementById('mole').style.display = "none";
+        document.getElementById('mud').style.display = "none";
+        document.getElementById('start').style.display = "none";
+
+        for (let i = 0; i < dirts.length; i++) {
+          dirts[i].style.display = "block";        
+        }
+        for (let i = 0; i < points_ref.length; i++) {
+          points_ref[i].style.display = "block";        
+        }
+
+        loop_ref = setInterval(loop,900);
+      });
+      function loop(){
+        for (let i = 0; i < moles.length; i++) {
+          moles[i].src = 'assets/mole.png';  
+          moles[i].style.display = "none";      
+        }
+        let random_index = Math.floor(Math.random()*5);
+        moles[random_index].style.display = "block";
+        console.log(random_index);
+      }
+      function stop(){
+        clearInterval(loop);
+      }
+      
+
+    </script>
+
+
+  </body>
+</html>
