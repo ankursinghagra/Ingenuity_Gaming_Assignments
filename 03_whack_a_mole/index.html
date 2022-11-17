@@ -42,6 +42,7 @@
       var moles = document.getElementsByClassName('mole');
       var points_ref = document.getElementsByClassName('points');
       var loop_ref =null;
+      var points = 0;
 
       for (let i = 0; i < dirts.length; i++) {
         dirts[i].style.display = "none";        
@@ -50,6 +51,8 @@
         moles[i].style.display = "none";
         moles[i].addEventListener('click', ()=>{
           moles[i].src = 'assets/splat.png';
+          points++;
+          document.getElementById('currentPoint').innerHTML = points;
         });     
       }
       for (let i = 0; i < points_ref.length; i++) {
