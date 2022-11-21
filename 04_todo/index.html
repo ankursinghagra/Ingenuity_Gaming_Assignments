@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+         body{
+            background: rgb(2,0,36);
+            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,85,1) 28%, rgba(0,212,255,1) 100%);
+            font-family: 'Josefin Sans', sans-serif;
+        }
+        .container{
+            margin-top: 100px;
+        }
+        .add-block{
+            max-width: 300px;
+            margin: 0 auto;
+            line-height: 3.5;
+        }
+        .task{
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .task .text{
+            padding: 0 12px;
+            line-height: 3.5;
+            background: white;
+            display: block;
+            border: 1px solid black;
+        }
+        .task .text.crossed{
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="add-block input-group">
+            <input type="text" id="add-text" class="form-control" name="task" placeholder="Add Task">
+            <span class="input-group-addon" id="add"><i class="glyphicon glyphicon-plus"></i></span>
+        </div>
+        <div class="tasks">
+            <div class="task input-group">
+                <span class="text">Task to do</span>
+                <span class="input-group-addon done"><i class="glyphicon glyphicon-check"></i></span>
+                <span class="input-group-addon delete"><i class="glyphicon glyphicon-trash"></i></span>
+            </div>
+        </div>
+    </div>
+    <script>
+        update_tasks();
+        update_delete_events();
+        var add_btn = document.getElementById('add');
+        var add_txt = document.getElementById('add-text');
+        add_btn.addEventListener('click', ()=>{
+            console.log(add_txt.value);
+            if(add_txt.value){
+                var task = {
+                    text: add_txt.value,
+                    done: false,
+                }
+                if(localStorage.getItem('tasks')){
+                    var tasks = JSON.parse(localStorage.getItem('tasks'));
+                }else{
+                    var tasks = [];
+                }
+                tasks.push(task);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                add_txt.value = '';
+                update_tasks();
+                update_delete_events();
+            }
+        });
+        
+        function update_tasks(){
+            var tasks_ref = document.getElementsByClassName('tasks');
+            console.log(tasks_ref);
+            for (let i = 0; i < tasks_ref.length; i++) {
+                tasks_ref[i].innerHTML = '';
+            }
+            if(localStorage.getItem('tasks')){                
+                let tasks = JSON.parse(localStorage.getItem('tasks'));
+                for(let i=0; i< tasks.length; i++){
+                    let task_container = document.createElement('div');
+                    task_container.classList.add('task');
+                    task_container.classList.add('input-group');
+                    if(tasks[i].done){
+                        let task_text = document.createElement('span');
+                        task_text.classList.add('text');
+                        task_text.classList.add('crossed');
+                        task_text.setAttribute('val', i);
+                        task_text.innerText = tasks[i].text;
+                        task_container.appendChild(task_text);
+                    }else{
+                        let task_text = document.createElement('span');
+                        task_text.classList.add('text');
+                        task_text.innerText = tasks[i].text;
+                        task_container.appendChild(task_text);
+                        //html+= '<span class="input-group-addon"><i class="glyphicon glyphicon-check"></i></span>';
+                        let done_btn = document.createElement('span');
+                        done_btn.classList.add('input-group-addon');
+                        done_btn.classList.add('done');
+                        done_btn.setAttribute('val', i);
+                        let done_btn_ico = document.createElement('i');
+                        done_btn_ico.classList.add('glyphicon');
+                        done_btn_ico.classList.add('glyphicon-check');
+                        done_btn.appendChild(done_btn_ico);
+                        task_container.appendChild(done_btn);
+                    }
+                    let del_btn = document.createElement('span');
+                    del_btn.classList.add('input-group-addon');
+                    del_btn.classList.add('delete');
+                    del_btn.setAttribute('val', i);
+                    let del_btn_ico = document.createElement('i');
+                    del_btn_ico.classList.add('glyphicon');
+                    del_btn_ico.classList.add('glyphicon-trash');
+                    del_btn.appendChild(del_btn_ico);
+                    
+                    task_container.appendChild(del_btn);
+                    document.getElementsByClassName('tasks')[0].appendChild(task_container);
+                }
+            }
+        }
+        function update_delete_events(){
+            var dlt_btn = document.getElementsByClassName('delete');
+            console.log(dlt_btn);
+            for (let i = 0; i < dlt_btn.length; i++) {
+                //dlt_btn[i].removeEventListener('click');
+                dlt_btn[i].addEventListener('click', ()=>{
+                    var index = dlt_btn[i].getAttribute('val');
+                    var tasks = JSON.parse(localStorage.getItem('tasks'));
+                    tasks.splice(index,1);
+                    console.log("item deleted")
+                    localStorage.setItem('tasks', JSON.stringify(tasks));
+                    update_tasks();
+                    update_delete_events();
+                });
+            }
+            var don_btn = document.getElementsByClassName('done');
+            for (let i = 0; i < don_btn.length; i++) {
+                don_btn[i].addEventListener('click', ()=>{
+                    var index = dlt_btn[i].getAttribute('val');
+                    var tasks = JSON.parse(localStorage.getItem('tasks'));
+                    tasks[i].done = true;
+                    localStorage.setItem('tasks', JSON.stringify(tasks));
+                    don_btn[i].previousElementSibling.classList.add('crossed');
+                    don_btn[i].remove();
+                });
+            }
+        }
+        function update_val_attr(){
+
+        }
+        
+
+    </script>
+</body>
+</html>
