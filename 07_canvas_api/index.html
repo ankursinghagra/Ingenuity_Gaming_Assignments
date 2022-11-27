@@ -63,7 +63,10 @@
             ctx.clearRect(0,0,canvas.width,canvas.height);
         }
         function draw(){
+            
             ctx.drawImage(background, 0, 0, background.width/2,background.height/2);
+            ctx.font = "30px Arial";
+            ctx.fillText("Press Arrow Keys to move", 70, 190);
             ctx.drawImage(base_image, img_cx.x, img_cx.y, base_image.width, base_image.height);
         }
         update();
