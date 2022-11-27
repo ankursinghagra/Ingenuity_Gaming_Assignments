@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            min-height: 90vh;
+            background-color: black;
+            color: white;
+            width: 99%;
+        }
+        h3{
+            display: block;
+            margin: 0 auto;
+            width: 180px;
+        }
+        #canvas{
+            background-color: white;
+            width: 500px;
+            height: 500px;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h3>Canvas API character</h3>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        //background image
+        var background = new Image();
+        background.src = "img/grass.jpg";
+        background.onload = function(){
+            ctx.drawImage(background, 0, 0, background.width/2,background.height/2);
+        }
+
+        var img_cx = {
+            x: 0,
+            y: 0,
+            src_r: 'img/player_right.png',
+            src_l: 'img/player_left.png', 
+        }
+
+        base_image = new Image();
+        base_image.src = 'img/player_right.png';
+        base_image.onload = function(){
+            ctx.drawImage(base_image, img_cx.x, img_cx.y, base_image.width*2, base_image.height*2);
+        }
+
+
+        function update(){
+            erase();
+            draw();
+            requestAnimationFrame(update);
+        }
+        function erase(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+        }
+        function draw(){
+            ctx.drawImage(background, 0, 0, background.width/2,background.height/2);
+            ctx.drawImage(base_image, img_cx.x, img_cx.y, base_image.width, base_image.height);
+        }
+        update();
+
+        window.addEventListener('keydown',this.move,false);
+
+        function move(e) {
+            console.log(e.keyCode);
+            if(e.keyCode == '38'){ // up
+                if(img_cx.y<=0){return;}
+                img_cx.y-=5;
+            }else if(e.keyCode == '40'){ // down
+                if((img_cx.y+base_image.height)>=canvas.height){return;}
+                img_cx.y+=5;
+            }else if(e.keyCode == '37'){ // left
+                if((img_cx.x)<=0){return;}
+                base_image.src=img_cx.src_l;
+                img_cx.x-=5;
+            }else if(e.keyCode == '39'){ // right
+                if((img_cx.x+base_image.width)>=canvas.width){return;}
+                base_image.src=img_cx.src_r;
+                img_cx.x+=5;
+            } 
+        }
+
+
+    </script>
+</body>
+</html>
